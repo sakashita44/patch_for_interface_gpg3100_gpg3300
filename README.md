@@ -1,0 +1,1 @@
+# patch_for_interface_gpg3100_gpg3300

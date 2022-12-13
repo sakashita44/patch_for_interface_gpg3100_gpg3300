@@ -1,0 +1,21 @@
+--- dpg0100.c.orig	2013-06-19 18:22:35.000000000 +0900
++++ dpg0100.c	2022-12-07 10:28:32.150293172 +0900
+@@ -16,7 +16,7 @@
+ #include <linux/pci.h>
+ #include <linux/sched.h>
+ #include <asm/delay.h>
+-#include <asm/system.h>
++// #include <asm/system.h>
+ #include <linux/hdreg.h>
+ #include <linux/slab.h>
+ 
+@@ -228,7 +228,8 @@
+ }
+ int gpg_MINOR_f(void *file)
+ {
+-	return MINOR(((struct file *)file)->f_dentry->d_inode->i_rdev);
++//	return MINOR(((struct file *)file)->f_dentry->d_inode->i_rdev);
++	return iminor(file_inode((struct file *) file));
+ }
+ void *gpg_get_file_private_data(void *file)
+ {

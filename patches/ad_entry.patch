@@ -1,0 +1,24 @@
+--- ad_entry.c.orig	2022-12-13 16:15:14.504259400 +0900
++++ ad_entry.c	2022-12-07 11:50:17.647015555 +0900
+@@ -830,6 +830,11 @@
+ /************************************************/
+ /* gpg_ad_interruptible_sleep_on_timeout        */
+ /************************************************/
++inline long interruptible_sleep_on_timeout(wait_queue_head_t * q, long timeout)
++{
++	return wait_event_interruptible_timeout(*q, 0, timeout);
++}
++
+ long gpg_ad_interruptible_sleep_on_timeout(void *ext, long timeout, int flag)
+ {
+ 	PAD_EXTERNAL_STRUCT pExt = (PAD_EXTERNAL_STRUCT)ext;
+@@ -1062,7 +1067,8 @@
+ /************************************************/
+ int gpg_ad_MINOR_f(void *file)
+ {
+-	return(MINOR(((struct file *)file)->f_dentry->d_inode->i_rdev));
++	//return(MINOR(((struct file *)file)->f_dentry->d_inode->i_rdev));
++	return iminor(file_inode((struct file *) file));
+ }
+ 
+ /************************************************/
